@@ -26,7 +26,7 @@
 // Uses I2C - connect SCL to the SCL pin, SDA to SDA pin
 // See the Wire tutorial for pinouts for each Arduino
 // http://arduino.cc/en/reference/wire
-Adafruit_MPL3115A2async baro = Adafruit_MPL3115A2async();
+Adafruit_MPL3115A2 baro = Adafruit_MPL3115A2();
 
 // a counter to show how many loops we execute between sensor updates
 unsigned long counter;
@@ -63,9 +63,9 @@ void loop() {
   unsigned long start = micros();
   baro.poll(true);
   // read the data. Doesn't wait and we'll automatically get updated data when available
-  float pascals = baro.getPressure();
-  float tempC = baro.getTemperature();
-  float altm = baro.getAltitude();
+  float pascals = baro.getPressureAsync();
+  float tempC = baro.getTemperatureAsync();
+  float altm = baro.getAltitudeAsync();
   unsigned long duration = micros() - start;
 
   // update the counter
