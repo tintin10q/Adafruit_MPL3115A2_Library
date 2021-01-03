@@ -241,6 +241,17 @@ unsigned int Adafruit_MPL3115A2::getstate(){
   return state;
 }
 
+/**************************************************************************/
+/*!
+    @brief set the state of the polling cycle
+    @set unsigned int representing the state of the reader (0 to 10 or 101-110) 
+      where 0 = uninitialised and >100 implies data has been refresehd since reset
+*/
+/**************************************************************************/
+void Adafruit_MPL3115A2::setState(unsigned int state) {
+  this->state = state;
+  }
+
 
 /**************************************************************************/
 /*!
@@ -299,7 +310,6 @@ void Adafruit_MPL3115A2::poll(bool quick) {
   int32_t alt;
   int16_t t;
   uint8_t sta;
-
   switch (state){
   default:     // unknown state - assume we aren't initialised
     state=0;
@@ -379,7 +389,6 @@ void Adafruit_MPL3115A2::poll(bool quick) {
   
     altitude = alt;
     altitude /= 65536.0;
-
     state++;
     if (quick) break;
   case 9:     // read temperature

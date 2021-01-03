@@ -122,7 +122,9 @@ public:
   float getAltitudeAsync(void);
   float getTemperatureAsync(void);
   void poll(bool quick = true);
+  
   unsigned int getstate();
+  void setState(unsigned int state);
   bool isNewData();
   void reset(bool reset=true);
 
