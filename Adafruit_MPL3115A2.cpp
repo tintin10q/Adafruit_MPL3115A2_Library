@@ -70,7 +70,7 @@ boolean Adafruit_MPL3115A2::begin(TwoWire *twoWire) {
    MPL3115A2_PT_DATA_CFG_TDEFE |
    MPL3115A2_PT_DATA_CFG_PDEFE |
    MPL3115A2_PT_DATA_CFG_DREM);
-
+  state = 1;
   return true;
 }
 
@@ -232,39 +232,15 @@ void Adafruit_MPL3115A2::write8(uint8_t a, uint8_t d) {
 
 /**************************************************************************/
 /*!
-    @brief  Instantiates a new MPL3115A2 class for polled mode
-*/
-/**************************************************************************/
-Adafruit_MPL3115A2async::Adafruit_MPL3115A2async() {
-}
-
-/**************************************************************************/
-/*!
     @brief returns the state of the polling cycle
     @return unsigned int representing the state of the reader (0 to 10 or 101-110) 
 	    where 0 = uninitialised and >100 implies data has been refresehd since reset
 */
 /**************************************************************************/
-unsigned int Adafruit_MPL3115A2async::getstate(){
+unsigned int Adafruit_MPL3115A2::getstate(){
   return state;
 }
 
-/**************************************************************************/
-/*!
-    @brief  Setups the HW (reads coefficients values, etc.)
-    @param twoWire Optional TwoWire I2C object
-    @return true on successful startup, false otherwise
-*/
-/**************************************************************************/
-boolean Adafruit_MPL3115A2async::begin(TwoWire *twoWire) {
-  if (Adafruit_MPL3115A2::begin(twoWire)) {
-    // record in the state that we have been initalised.
-    state = 1;
-    return true;
-  } else {
-    return false;
-  }
-}
 
 /**************************************************************************/
 /*!
@@ -272,7 +248,7 @@ boolean Adafruit_MPL3115A2async::begin(TwoWire *twoWire) {
     @return altitude reading as a floating point value
 */
 /**************************************************************************/
-float Adafruit_MPL3115A2async::getPressure() {
+float Adafruit_MPL3115A2::getPressureAsync() {
   return baro;
 }
 /**************************************************************************/
@@ -281,7 +257,7 @@ float Adafruit_MPL3115A2async::getPressure() {
     @return altitude reading as a floating-point value
 */
 /**************************************************************************/
-float Adafruit_MPL3115A2async::getTemperature() {
+float Adafruit_MPL3115A2::getTemperatureAsync() {
   return temp;
 }
 /**************************************************************************/
@@ -290,7 +266,7 @@ float Adafruit_MPL3115A2async::getTemperature() {
     @return temperature reading in Centigrade as a floating-point value
 */
 /**************************************************************************/
-float Adafruit_MPL3115A2async::getAltitude() {
+float Adafruit_MPL3115A2::getAltitudeAsync() {
   return altitude;
 }
 /**************************************************************************/
@@ -299,7 +275,7 @@ float Adafruit_MPL3115A2async::getAltitude() {
     @return true if data is new
 */
 /**************************************************************************/
-bool Adafruit_MPL3115A2async::isNewData() {
+bool Adafruit_MPL3115A2::isNewData() {
   return (state>=100);
 }
 /**************************************************************************/
@@ -308,7 +284,7 @@ bool Adafruit_MPL3115A2async::isNewData() {
     @param  reset pass true to reset, false to leave unchanged
 */
 /**************************************************************************/
-void Adafruit_MPL3115A2async::reset(bool reset) {
+void Adafruit_MPL3115A2::reset(bool reset) {
   if (reset && state>=100) state-=100;
 }
 
@@ -318,7 +294,7 @@ void Adafruit_MPL3115A2async::reset(bool reset) {
     @param  quick false is slower per call, fewer calls to refresh; true is faster per call, more calls to refresh
 */
 /**************************************************************************/
-void Adafruit_MPL3115A2async::poll(bool quick) {
+void Adafruit_MPL3115A2::poll(bool quick) {
   uint32_t pressure;
   int32_t alt;
   int16_t t;

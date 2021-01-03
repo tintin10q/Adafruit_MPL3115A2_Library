@@ -118,11 +118,25 @@ public:
 
   void write8(uint8_t a, uint8_t d);
 
+  float getPressureAsync(void);
+  float getAltitudeAsync(void);
+  float getTemperatureAsync(void);
+  void poll(bool quick = true);
+  unsigned int getstate();
+  bool isNewData();
+  void reset(bool reset=true);
 
- protected:
+  boolean begin(TwoWire *twoWire);
+
+ private:
   TwoWire *_i2c;
   uint8_t read8(uint8_t a);
   uint8_t mode;
+
+  float baro=NAN;
+  float temp=NAN;
+  float altitude=NAN;
+  uint8_t state=0;
 
   typedef union {
     struct {
@@ -136,32 +150,6 @@ public:
     uint8_t reg;
   } ctrl_reg1;
   ctrl_reg1 _ctrl_reg1;
-};
-
-
-/**************************************************************************/
-/*! 
-    @brief  Derived class that stores state and functions for interacting with MPL3115A2 altimeter in polled mode
-*/
-/**************************************************************************/
-class Adafruit_MPL3115A2async : public Adafruit_MPL3115A2{
- public:
-  Adafruit_MPL3115A2async();
-  float getPressure(void);
-  float getAltitude(void);
-  float getTemperature(void);
-  void poll(bool quick = true);
-  unsigned int getstate();
-  bool isNewData();
-  void reset(bool reset=true);
-
-  boolean begin(TwoWire *twoWire);
-
- protected:
-  float baro=NAN;
-  float temp=NAN;
-  float altitude=NAN;
-  uint8_t state=0;
 };
 
 #endif
