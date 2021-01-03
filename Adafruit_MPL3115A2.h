@@ -126,8 +126,6 @@ public:
   bool isNewData();
   void reset(bool reset=true);
 
-  boolean begin(TwoWire *twoWire);
-
  private:
   TwoWire *_i2c;
   uint8_t read8(uint8_t a);
